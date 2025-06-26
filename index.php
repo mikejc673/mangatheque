@@ -1,47 +1,22 @@
 <?php
-if(!empty($_POST['pseudo']) && !empty($_POST['psw'])) {
-    $pseudo=$_POST['pseudo'];
-    $psw=$_POST['psw'];
+require 'vendor/autoload.php';
+require 'vendor/altorouter/altorouter/AltoRouter.php';
 
-    $bdd=new PDO('mysql:host=localhost;dbname=mangatheque', 'root', 'root');
-    $req=$bdd->prepare("SELECT id, pseudo, password FROM user WHERE pseudo=:pseudo AND password=:password");
-    $req->bindParam(':pseudo', $pseudo);
-    $req->execute();
+$router = new AltoRouter();
 
-    if($req->rowCount() ==1 ) {
-        echo 'Connexion réussie';
-        echo'Bonjour '.$pseudo;
-        $user=$req->fetch(pdo::FETCH_ASSOC);
-        if($user['password'] != $psw) {
-            echo 'h1> Bonjour '.$user['pseudo'].'</h1>';
-        } else {
-            $error='<p style="color:red;">mot de passe ou pseudo incorrect</p>';
-        }
-    }
+$router->setBasePath('/mangatheque');
+$router->map('GET', '/', 'ControllerPage#homepage', 'homepage');
+
+$match = $router->match();
+
+
+if(is_array($match)){
+    list($controller,$action) = explode("#",$match['target']);
+    $obj = new $controller();
 }
-?>
 
-
-
-
-
-<form action="#" method="post">
-    <?php 
-    if(isset($error)) {
-    echo $error; 
-    }
-    ?>
-    <div>
-        <label for="pseudo">Pseudo</label><br>
-        <input type="text" id="pseudo" name="pseudo" >  
-    </div> 
-
-    <div>
-        <label for="psw">Password:</label><br>
-            <input type="password" id="psw" name="psw" >
-    </div>
-
-    <div>
-            <input type="submit" value="connexion">
-    </div>
-    </form>
+if(is_callable($obj,$action)){
+    call_user_func_array(array($obj,$action), $match['params']);
+} else{
+    http_response_code(404);
+}
