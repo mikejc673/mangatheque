@@ -15,7 +15,7 @@ class ControllerUser {
     public function deleteUserById(int $id) {
        $modelUser = new ModelUser();
        $success = $modelUser->deleteOneUserById($id);
-       var_dump($success);
+       
     }
 }
 
