@@ -29,4 +29,13 @@ class ModelUser extends Model {
 
         return $req->rowCount() > 0;
     }
+    public function updateUser(User $user) : bool {
+        $req = $this->getDb()->prepare('UPDATE user SET pseudo = :pseudo, email = :email WHERE id = :id');
+        $req->bindParam(':pseudo', $user->getPseudo(), PDO::PARAM_STR);
+        $req->bindParam(':email', $user->getEmail(), PDO::PARAM_STR);
+        $req->bindParam(':id', $user->getId(), PDO::PARAM_INT);
+
+        return $req->execute();
+    }
+    
 }

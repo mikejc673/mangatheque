@@ -9,7 +9,7 @@ $router->map('GET', '/', 'ControllerPage#homePage', 'homepage');
 //user
 $router->map('GET', '/user/[i:id]', 'ControllerUser#oneuserById', 'userPage');
 $router->map('GET', '/user/delete/[i:id]', 'ControllerUser#oneuserById', 'userDelete');
-$router->map('GET', '/user/update/[i:id]', 'ControllerUser#updateForm', 'user_update_form');
+$router->map('GET|POST', '/user/update/[i:id]', 'ControllerUser#updateUser', 'userUpdateForm');
 
 $match = $router->match();
 
@@ -24,3 +24,5 @@ if(is_array($match)){
 } else {
     http_response_code(404);
 }
+
+
