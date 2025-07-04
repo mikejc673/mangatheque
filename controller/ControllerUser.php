@@ -2,8 +2,8 @@
 class ControllerUser {
     public function OneUserById(int $id){
         $modelUser = new ModelUser();
-        $user = $modelUser->oneUserById($id);
-       
+        $user = $modelUser->getOneUserById($id);
+
         if ($user == null) {
             http_response_code(404);
             require './view/404.php';
@@ -14,7 +14,7 @@ class ControllerUser {
 
     public function deleteUserById(int $id) {
        $modelUser = new ModelUser();
-       $success = $modelUser->deleteUserById($id);
+       $success = $modelUser->deleteOneUserById($id);
        var_dump($success);
     }
 }
