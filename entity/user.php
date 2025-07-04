@@ -1,63 +1,64 @@
 <?php
-// entity/user.php encapsulation example
-    class User {
-        private int $id;
-        private string $pseudo;
-        private string $password;
-        private string $email;
-        private DateTimeImmutable $createdAt;
+class User {
+    private int $id = 12;
+    private string $pseudo = 'toto';
+    private string $email = 'toto@gmail.com';
+    private string $password = '123456';
+    private DateTimeImmutable $created_at;
 
-        public function __construct(int $id, string $pseudo, string $password, string $email) {
-            $this->id = $id;
-            $this->pseudo = $pseudo;
-            $this->password = $password;
-            $this->email = $email;
-            $this->createdAt = new DateTimeImmutable();
-        }
+    public function __construct(array $datas) {
+        $this->created_at= new \DateTimeImmutable();
+        $this->hydrate($datas);
+      }      
+    
+ 
+   private function hydrate(array $datas){
+        
+            foreach ($datas as $key => $value) {
+                $method = 'set' . ucfirst($key);
+                if (method_exists($this, $method)) {
+                    $this->$method($value);
+                }
+                }
+    }
+    public function getId() : int {
+        return $this->id;
+    }
 
-        public function getId(){
-            return $this->id;//$this représente l'instance de la classe User
-        }
-        public function setId(int $id) :void{
-            $this->id = $id;
-        }
-        public function getPseudo(): string {
-            return $this->pseudo;
-        }
-        public function setPseudo(string $pseudo) :void {
-            $this->pseudo = $pseudo;
-        }
-        public function getPassword(): string {
-            return $this->password;
-        }
+    public function getPseudo() : string {
+        return $this->pseudo;
+    }
 
-        public function setPassword(string $password) :void{
-            $this->password = $password;
-        }
+    public function getEmail() : string {
+        return $this->email;
+    }
 
-        public function getEmail(): string {
-            return $this->email;
-        }
+    public function getPassword() : string {
+        return $this->password;
+    }
 
-    public function setEmail(string $email): void {
+    public function getCreated_at() : DateTimeImmutable {
+        return $this->created_at;
+    }
+
+    public function setId(int $id) : void {
+        $this->id = $id;
+    
+    }
+
+    public function setPseudo(string $pseudo) : void {
+        $this->pseudo = $pseudo;
+    }
+
+    public function setPassword(string $password) : void {
+        $this->password = $password;
+    }
+
+    public function setEmail(string $email) : void {
         $this->email = $email;
     }
-        public function setCreatedAt(DateTimeImmutable $createdAt) {
-            $this->createdAt = $createdAt;
-        }
 
-        public function getCreatedAt(): DateTimeImmutable {
-            return $this->createdAt;
-        }
+    public function setCreated_at (string $created_at) : void {
+        $this->created_at = new \DateTimeImmutable($created_at);
     }
-    $user = new User(1, 'Alice', 'password123', 'alice@example.com');
-    $user2 = new User(2, 'Bob', 'securepass', 'bob@example.com');
-
-    echo $user->getId().'<br>';
-    echo $user2->getId().'<br>';
-
-    $user2->setId(25);
-    echo $user->getId().'<br>';
-    echo $user2->getId().'<br>';
-
-   
+}

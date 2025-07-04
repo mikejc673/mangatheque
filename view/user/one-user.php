@@ -1,13 +1,12 @@
 <?php
-$title = "Page d'accueil !";
+$title = "Utilisateur:{$user->getPseudo()}!";
 ob_start();
 foreach($users as $user) :
 ?>
 <div class="user">
     <h2><?= $user->getPseudo() ?></h2>
     <p>Email : <?= $user->getEmail() ?></p>
-    <p><a href="user/<?= $user->getId() ?> ">Voir le user</a></p>
-    <p><a href="user/<?= $user->getId() ?>/delete">Supprimer le user</a></p>
+    <p>Crée le <?= $user->getCreated_at() ->format('d/m/Y') ?></p>
 </div>
 <?php
 endforeach;
