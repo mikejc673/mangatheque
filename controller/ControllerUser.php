@@ -16,6 +16,26 @@ class ControllerUser {
        $modelUser = new ModelUser();
        $success = $modelUser->deleteOneUserById($id);
        
+         if ($success) {
+              
+              exit;
+         } else {
+            $error='Aucun user supprimé.';
+              http_response_code(404);    
+         }
+         header('Location: /mangatheque/');
+         exit;
+    }
+    public function updateForm(int $id) {
+        $modelUser = new ModelUser();
+        $user = $modelUser->getOneUserById($id);
+
+        if ($user == null) {
+            http_response_code(404);
+            require './view/404.php';
+            exit;
+        } 
+        require './view/user/update-user.php';
     }
 }
 
