@@ -21,7 +21,24 @@ class ModelUser extends Model {
 
         return $user ? new User($user) : null;
     }
+    public function getOneUserByPseudo(string $pseudo) : ?User {
+        $req = $this->getDb()->prepare('SELECT id, pseudo, email, password FROM user WHERE pseudo = :pseudo');
+        $req->bindParam(':pseudo', $pseudo, PDO::PARAM_STR);
+        $req->execute();
 
+        $user = $req->fetch(PDO::FETCH_ASSOC);
+
+        return $user ? new User($user) : null;
+    }
+    public function updateOneUserById(int $id, string $pseudo, string $email) : bool {
+        $req = $this->getDb()->prepare('UPDATE user SET pseudo = :pseudo, email = :email WHERE id = :id');
+        $req->bindParam(':pseudo', $pseudo, PDO::PARAM_STR);
+        $req->bindParam(':email', $email, PDO::PARAM_STR);
+        $req->bindParam(':id', $id, PDO::PARAM_INT);
+        $req->bindParam(':password', $password, PDO::PARAM_STR);
+
+        return $req->execute();
+    }
     public function deleteOneUserById(int $id) : bool {
         $req = $this->getDb()->prepare('DELETE FROM user WHERE id = :id');
         $req->bindParam(':id', $id, PDO::PARAM_INT);

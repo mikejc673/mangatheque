@@ -11,6 +11,7 @@ class ControllerUser {
         } 
         require './view/user/one-User.php';
     }
+    }
 
     public function deleteUserById(int $id) {
        $modelUser = new ModelUser();
@@ -39,10 +40,24 @@ class ControllerUser {
         
    
      exit;
-        }  require './view/user/update-form.php';
+        }  
+        require './view/user/update-form.php';
+        exit;
 
      if($_SERVER['REQUEST_METHOD']== 'POST'){
+            $modelUser = new ModelUser();
+            $pseudo = trim($_POST['pseudo']);
+            $email = filter_var(trim($_POST['email']), FILTER_SANITIZE_EMAIL);
+            $password = trim($_POST['password']);
+            $req = $modelUser->updateOneUserById($id, $pseudo, $email, $password);
 
+            if($req){
+                $message = "User modifié avec succès";
+                header('location:/managatheque/user/'.$user->getId());
+                exit;
+            } 
+            if($user === null){
+                $error = "Aucun user trouvé";
      }
 
     

@@ -5,15 +5,16 @@ $title = "Update User";
 <div class="user">
     <form action="/mangatheque/user/update/<?= $user->id->getPseudo(); ?>" method="post">
     <h2><?= $user->id->getPseudo(); ?></h2>
+    <p>Pseudo: <?= $user->getPseudo(); ?></p>
     <label for="pseudo">Pseudo:</label>
-    <input type="text" id="pseudo" name="pseudo" value="<?= $user->pseudo;  ?>">
-    <p>Email: <?= $user->email; ?></p>
+    <input type="text" id="pseudo" name="pseudo" value="<?= $user->getPseudo(); ?>">
+    <p>Email: <?= $user->getEmail(); ?></p>
     <label for="email">Email:</label>
-    <input type="text" id="email" name="email" value="<?= $user->email; ?>">
-    <p>Password: <?= $user->password; ?></p>
+    <input type="text" id="email" name="email" value="<?= $user->getEmail(); ?>">
+    <p>Password: <?= $user->getPassword(); ?></p>
     <label for="password">Password:</label>
-    <input type="text" id="password" name="password" value="<?= $user->password; 
-    $user->getPassword();?>">
+    <input type="text" id="password" name="password" value="<?= $user->getPassword(); ?>">
+    
 
 </div>
 
