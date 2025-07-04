@@ -2,7 +2,7 @@
 class ControllerUser {
     public function OneUserById(int $id){
         $modelUser = new ModelUser();
-        $user = $modelUser->OneUserById($id);
+        $user = $modelUser->oneUserById($id);
        
         if ($user == null) {
             http_response_code(404);
@@ -11,12 +11,11 @@ class ControllerUser {
         } 
         require './view/user/one-User.php';
     }
-}
 
-class ModelUser {
-    public function OneUserById(int $id) {
-        
-        return null; 
+    public function deleteUserById(int $id) {
+       $modelUser = new ModelUser();
+       $success = $modelUser->deleteUserById($id);
+       var_dump($success);
     }
 }
 
