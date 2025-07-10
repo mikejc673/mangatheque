@@ -13,7 +13,7 @@ class ControllerUser {
     }
     }
 
-    public function deleteUserById(int $id) {
+    public function DeleteUserById(int $id){
        $modelUser = new ModelUser();
        $success = $modelUser->deleteOneUserById($id);
        
@@ -27,7 +27,7 @@ class ControllerUser {
          header('Location: /mangatheque/');
          exit;
     }
-    public function updateUser(int $id) {
+    public function UpdateUser(int $id){
      if($_SERVER['REQUEST_METHOD']== 'GET'){
          $modelUser = new ModelUser();
          $user = $modelUser->getOneUserById($id);
@@ -36,7 +36,7 @@ class ControllerUser {
  
         if($user=== null){
             $error="Aucun user trouvé";
-            header('location:/managatheque/');
+            header('location:/mangatheque/');
         
    
      exit;
@@ -53,7 +53,7 @@ class ControllerUser {
 
             if($req){
                 $message = "User modifié avec succès";
-                header('location:/managatheque/user/'.$user->getId());
+                header('location:/mangatheque/user/'.$user->getId());
                 exit;
             } 
             if($user === null){
@@ -62,7 +62,7 @@ class ControllerUser {
 
     
      http_response_code(404);
-      header('location:/managatheque/');
+      header('location:/mangatheque/');
        exit;
     }
 }

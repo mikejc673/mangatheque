@@ -14,6 +14,7 @@ $router->map('GET|POST', '/user/update/[i:id]', 'ControllerUser#updateUser', 'us
 
 //login register logout
 $router->map('GET|POST', '/register', 'ControllerAuth#register', 'register');
+$router->map('GET|POST','/login','ControllerAuth#login','login');
 
 $match = $router->match();
 
