@@ -17,7 +17,7 @@ class ControllerAuth {
             
             if ($success) {
                 $_SESSION['success'] = "Votre compte a été créé avec succès. Vous pouvez maintenant vous connecter.";
-                header('Location: /mangatheque/');
+                header('Location: /mangatheque/login');
                 exit;
             } else {
                 $_SESSION['error'] = "Une erreur est survenue lors de l'enregistrement. Veuillez réessayer.";
