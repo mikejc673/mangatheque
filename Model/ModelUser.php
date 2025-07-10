@@ -30,12 +30,23 @@ class ModelUser extends Model {
 
         return $user ? new User($user) : null;
     }
+    public function createUser(string $pseudo, string $email, string $password) : bool {
+        $req = $this->getDb()->prepare('INSERT INTO user (pseudo, email, password) VALUES (:pseudo, :email, :password)');
+        $passwordHash = password_hash($password, PASSWORD_DEFAULT);
+
+        $req->bindParam(':pseudo', $pseudo, PDO::PARAM_STR);
+        $req->bindParam(':email', $email, PDO::PARAM_STR);
+        $req->bindParam(':password', $passwordHash, PDO::PARAM_STR);
+
+        return $req->execute();
+    }
+
     public function updateOneUserById(int $id, string $pseudo, string $email) : bool {
         $req = $this->getDb()->prepare('UPDATE user SET pseudo = :pseudo, email = :email WHERE id = :id');
         $req->bindParam(':pseudo', $pseudo, PDO::PARAM_STR);
         $req->bindParam(':email', $email, PDO::PARAM_STR);
         $req->bindParam(':id', $id, PDO::PARAM_INT);
-        $req->bindParam(':password', $password, PDO::PARAM_STR);
+        $req->bindParam(':password', $passwordHash, PDO::PARAM_STR);
 
         return $req->execute();
     }
@@ -51,6 +62,7 @@ class ModelUser extends Model {
         $req->bindParam(':pseudo', $user->getPseudo(), PDO::PARAM_STR);
         $req->bindParam(':email', $user->getEmail(), PDO::PARAM_STR);
         $req->bindParam(':id', $user->getId(), PDO::PARAM_INT);
+        $req->bindParam(':password', $passwordHash, PDO::PARAM_STR);
 
         return $req->execute();
     }

@@ -11,8 +11,10 @@ $router->map('GET', '/user/[i:id]', 'ControllerUser#oneuserById', 'userPage');
 $router->map('GET', '/user/delete/[i:id]', 'ControllerUser#oneuserById', 'userDelete');
 $router->map('GET|POST', '/user/update/[i:id]', 'ControllerUser#updateUser', 'userUpdateForm');
 
-$match = $router->match();
+//login register logout
+$router->map('GET|POST', '/register', 'ControllerAuth#register', 'register');
 
+$match = $router->match();
 
 if(is_array($match)){
     list($controller, $action) = explode("#", $match['target']);
@@ -25,4 +27,4 @@ if(is_array($match)){
     http_response_code(404);
 }
 
-
+?>
