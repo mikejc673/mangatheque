@@ -1,7 +1,7 @@
 <?php
 class ModelUser extends Model {
     public function getUsers() : array {
-        $query = $this->getDb()->query('SELECT id, pseudo, email, password FROM user');
+        $query = $this->getDb()->prepare('SELECT id, pseudo, email, password FROM user');
         $arrayUser = [];
 
         while($user = $query->fetch(PDO::FETCH_ASSOC)){
