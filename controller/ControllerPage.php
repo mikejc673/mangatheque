@@ -3,6 +3,7 @@ class ControllerPage {
     public function homePage(){
         $modelUser = new ModelUser();
         $users = $modelUser->getUsers();
-        require './view/page/homepage.php';
+
+        require __DIR__ . '/../view/page/homepage.php';
     }
 }

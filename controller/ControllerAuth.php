@@ -4,6 +4,7 @@ class ControllerAuth {
         
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if (empty($_POST['pseudo']) || empty($_POST['email']) || empty($_POST['password'])) {
+                $_SESSION['error'] = "Tous les champs doivent être remplis.";
                 header('Location: /mangatheque/register');
                 exit;
             }
@@ -13,10 +14,13 @@ class ControllerAuth {
 
             $modelUser = new ModelUser();
             $success = $modelUser->createUser($pseudo, $email, $password);
+            
             if ($success) {
+                $_SESSION['success'] = "Votre compte a été créé avec succès. Vous pouvez maintenant vous connecter.";
                 header('Location: /mangatheque/');
                 exit;
             } else {
+                $_SESSION['error'] = "Une erreur est survenue lors de l'enregistrement. Veuillez réessayer.";
                 header('Location: /mangatheque/register');
                 exit;
             }

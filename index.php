@@ -1,4 +1,5 @@
 <?php 
+session_start();
 require 'Vendor/autoload.php';
 require 'Vendor/altorouter/altorouter/AltoRouter.php';
 

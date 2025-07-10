@@ -6,7 +6,7 @@ ob_start();
 $content=ob_get_contents();
 ob_end_clean();
 ?>
-<form action="/mangareque/register" method="post">
+<form action="/mangatheque/register" method="post">
     <div>
         <label for="pseudo">Pseudo</label>
         <input type="text" name="pseudo" id="pseudo" placeholder="Enter your pseudo" required>

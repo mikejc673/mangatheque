@@ -1,7 +1,7 @@
 <?php
 class ModelUser extends Model {
     public function getUsers() : array {
-        $query = $this->getDb()->prepare('SELECT id, pseudo, email, password FROM user');
+        $query = $this->getDb()->query('SELECT id, pseudo, email, password FROM user');
         $arrayUser = [];
 
         while($user = $query->fetch(PDO::FETCH_ASSOC)){
@@ -31,7 +31,7 @@ class ModelUser extends Model {
         return $user ? new User($user) : null;
     }
     public function createUser(string $pseudo, string $email, string $password) : bool {
-        $req = $this->getDb()->prepare('INSERT INTO user (pseudo, email, password) VALUES (:pseudo, :email, :password)');
+        $req = $this->getDb()->prepare('INSERT INTO user (pseudo, email, password, created_at) VALUES (:pseudo, :email, :password, NOW())');
         $passwordHash = password_hash($password, PASSWORD_DEFAULT);
 
         $req->bindParam(':pseudo', $pseudo, PDO::PARAM_STR);
