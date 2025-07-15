@@ -17,7 +17,17 @@ ob_end_clean();
     </div>
     <div>
         <label for="password">Password</label>
-        <input type="password" name="password" id="password" placeholder="Enter your password" required>
+        <input type="password" name="password" id="password" placeholder="Enter your password" required><br>
+        <label for="confirm password">Confirm Password</label>
+        <input type="confirm password" name="confirm password" placeholder="Enter your password" required $hash = '$2y$12$4Umg0rCJwMswRw/l.SwHvuQV01coP0eWmGzd61QH2RvAOMANUBGC.';
+
+if (password_verify('rasmuslerdorf', $hash)) {
+    echo 'Password is valid!';
+} else {
+    echo 'Invalid password.';
+}
+?>
+
     </div>
     <br>
     <div>

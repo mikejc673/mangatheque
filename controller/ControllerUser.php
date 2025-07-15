@@ -13,7 +13,7 @@ class ControllerUser {
     }
     }
 
-    public function DeleteUserById(int $id){
+    public function DeleteUserById (int $id){
        $modelUser = new ModelUser();
        $success = $modelUser->deleteOneUserById($id);
        
