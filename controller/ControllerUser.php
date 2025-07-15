@@ -44,6 +44,9 @@ class ControllerUser {
         require './view/user/update-form.php';
         exit;
 
+        public function UserLogin(int $id);
+        $ModelUser=$User();
+
      if($_SERVER['REQUEST_METHOD']== 'POST'){
             $modelUser = new ModelUser();
             $pseudo = trim($_POST['pseudo']);
