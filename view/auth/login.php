@@ -12,7 +12,9 @@ ob_start();
     <br>
      <div>
         <label for="password">Password</label>
-        <input type="password" name="password" id="password" placeholder="Enter your password" required>
+        <input type="password" name="password" id="password" placeholder="Enter your password" required><br>
+        
+        
     </div>
     <br>
      <div>
