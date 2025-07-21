@@ -1,117 +1,64 @@
 <?php
-
-class ControllerAuth {
-
-
-
-    public function register() {
-
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-
+class ControllerAuth
+{
+    public function register()
+    {
+        // Si c'est la méthode POST qu'on utilise (à vérifier avec var_dump($_SERVER))
+        if ($_SERVER["REQUEST_METHOD"] === 'POST') {
+            // Si c'est vide je renvoi sur le register
             if (empty($_POST['pseudo']) || empty($_POST['email']) || empty($_POST['password'])) {
-
-                $_SESSION['error'] = "Tous les champs doivent être remplis.";
-
+                $_SESSION['error'] = "Tous les champs doivent être remplis !";
                 header('Location: /mangatheque/register');
-
                 exit;
-
             }
 
             $pseudo = trim($_POST['pseudo']);
-
             $email = filter_var(trim($_POST['email']), FILTER_SANITIZE_EMAIL);
-
             $password = trim($_POST['password']);
 
+            $modelUser = new ModelUser();
+            $successUser = $modelUser->createUser($pseudo, $email, $password);
 
+            if ($successUser) {
+                $_SESSION['success'] = "Vous êtes bien enregistré ! Vous pouvez vous connecter !";
+                header('Location: /mangatheque/login');
+                exit;
+            } else {
+                $_SESSION['error'] = "Erreur lors de l'insertion.";
+                header('Location: /mangatheque/register');
+                exit;
+            }
+        }
+        require __DIR__ . '/../view/auth/register.php';
+    }
+
+    public function login()
+    {
+        if ($_SERVER["REQUEST_METHOD"] === 'POST') {
+            if (empty($_POST['email']) || empty($_POST['password'])) {
+                $_SESSION['error'] = "Tous les champs doivent être remplis.";
+                header('Location: /mangatheque/login');
+                exit;
+            }
+
+            $email = trim($_POST['email']);
+            $password = trim($_POST['password']);
 
             $modelUser = new ModelUser();
+            $user = $modelUser->getUserByEmail($email);
 
-            $success = $modelUser->createUser($pseudo, $email, $password);
-
-            
-
-            if ($success) {
-
-                $_SESSION['success'] = "Votre compte a été créé avec succès. Vous pouvez maintenant vous connecter.";
-
-                header('Location: /mangatheque/login');
-
+            if ($user && password_verify($password, $user->getPassword())) {
+                $_SESSION['user'] = $user;
+                $_SESSION['success'] = "Connexion réussie !";
+                header('Location: /mangatheque/');
                 exit;
-
             } else {
-
-                $_SESSION['error'] = "Une erreur est survenue lors de l'enregistrement. Veuillez réessayer.";
-
-                header('Location: /mangatheque/register');
-
+                $_SESSION['error'] = "Identifiants invalides.";
+                header('Location: /mangatheque/login');
                 exit;
-
             }
-
         }
 
+        require __DIR__ . '/../view/auth/login.php';
     }
-
-
-
-    public function login() {
-
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-
-            if (!empty($_POST['email']) && !empty($_POST['password'])) {
-
-                $modelUser = new ModelUser();
-
-                $userSuccess = $modelUser->getUserByEmail($_POST['email']);
-
-
-
-                // Vérifiez si l'utilisateur existe avant de vérifier le mot de passe
-
-                if ($userSuccess && password_verify($_POST['password'], $userSuccess->getPassword())) {
-
-                    $_SESSION['success'] = 'Connexion réussie!';
-
-                    $_SESSION['id'] = $userSuccess->getId();
-
-                    $_SESSION['pseudo'] = $userSuccess->getPseudo();
-
-
-
-                    header('Location: /mangatheque/');
-
-                    exit;
-
-                } else {
-
-                    $_SESSION['error'] = 'Identifiants incorrects';
-
-                    require __DIR__ . '/../view/auth/login.php';
-
-                    exit;
-
-                }
-
-            }
-
-        }
-
-    }
-
-
-
-    public function logout() {
-
-        session_unset();
-
-        session_destroy();
-
-        header('Location: /mangatheque/login');
-
-        exit; // Ajout d'un exit après la redirection
-
-    }
-
 }
