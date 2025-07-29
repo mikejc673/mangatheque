@@ -1,4 +1,8 @@
 <?php
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
 class ControllerAuth
 {
     public function register()
@@ -59,6 +63,11 @@ class ControllerAuth
             }
         }
 
-        require __DIR__ . '/../view/auth/login.php';
+        $loginView = __DIR__ . '/../view/auth/login.php';
+        if (file_exists($loginView)) {
+            require $loginView;
+        } else {
+            echo 'Fichier login.php introuvable à : ' . $loginView;
+        }
     }
 }

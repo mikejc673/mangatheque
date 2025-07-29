@@ -67,12 +67,12 @@ class ModelUser extends Model {
         return $req->execute();
     }
     
-    public function getUserByEmail(string $email){
-        $req=$this->getDb()->prepare('SELECT id,pseudo,password FROM user WHERE email=:email');
-        $req->bindParam(':email',$email,PDO::PARAM_STR);
+    public function getUserByEmail(string $email): ?User {
+        $req = $this->getDb()->prepare('SELECT id, pseudo, email, password FROM user WHERE email = :email');
+        $req->bindParam(':email', $email, PDO::PARAM_STR);
         $req->execute();
 
-        $user=$req->fetch( PDO::FETCH_ASSOC);
-        return $req->rowCount();
+        $user = $req->fetch(PDO::FETCH_ASSOC);
+        return $user ? new User($user) : null;
     }
 }
